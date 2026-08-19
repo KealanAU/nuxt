@@ -3,7 +3,7 @@ import { isAbsolute } from 'node:path'
 import { normalize } from 'pathe'
 import type { NuxtPlugin, NuxtPluginTemplate } from '@nuxt/schema'
 import { resolveModulePath } from 'exsolve'
-import { MODE_RE, filterInPlace } from './utils.ts'
+import { DEV_RE, MODE_RE, filterInPlace } from './utils.ts'
 import { pluginDiagnostics } from './diagnostics/plugins.ts'
 import { tryUseNuxt, useNuxt } from './context.ts'
 import { addTemplate } from './template.ts'
@@ -51,6 +51,11 @@ export function normalizePlugin (plugin: NuxtPlugin | string): NuxtPlugin {
   if (!plugin.mode) {
     const [, mode = 'all'] = plugin.src.match(MODE_RE) || []
     plugin.mode = mode as 'all' | 'client' | 'server'
+  }
+
+  // Normalize environment (`plugins/a11y.dev.ts` is registered in development only)
+  if (plugin.dev === undefined && DEV_RE.test(plugin.src)) {
+    plugin.dev = true
   }
 
   // @ts-expect-error not adding symbol to types to avoid conflicts

@@ -19,6 +19,7 @@ export function filterInPlace<T> (array: T[], predicate: (item: T, index: number
 }
 
 export const MODE_RE = /\.(server|client)(\.\w+)*$/
+export const DEV_RE = /\.dev(\.\w+)*$/
 
 export const distDirURL = new URL('.', import.meta.url)
 

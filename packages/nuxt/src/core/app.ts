@@ -281,6 +281,7 @@ export async function resolveApp (nuxt: Nuxt, app: NuxtApp) {
   // Normalize and de-duplicate plugins, middleware and app configs
   app.middleware = uniqueBy(await resolvePaths(nuxt, app.middleware, 'path'), 'name')
   app.plugins = uniqueBy(await resolvePaths(nuxt, app.plugins, 'src'), 'src')
+    .filter(plugin => plugin.dev === undefined || plugin.dev === nuxt.options.dev)
   app.configs = [...new Set(app.configs)]
 
   // committed only once resolution has fully succeeded, so a throwing `app:resolve`

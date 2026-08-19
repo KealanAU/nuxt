@@ -13,6 +13,13 @@ export interface NuxtPlugin {
   src: string
   mode?: 'all' | 'server' | 'client'
   /**
+   * Restrict the plugin to a single environment, so it is left out of the other build entirely.
+   *
+   * `true` registers it only in development, `false` only in production. Inferred from a `.dev`
+   * suffix in the filename (e.g. `plugins/a11y.dev.ts`, `plugins/a11y.dev.client.ts`).
+   */
+  dev?: boolean
+  /**
    * This allows more granular control over plugin order and should only be used by advanced users.
    * Lower numbers run first, and user plugins default to `0`.
    *
